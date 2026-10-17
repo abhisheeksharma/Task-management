@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow | Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <a href="#" class="brand">
+        <span class="brand-icon">✓</span>
+        TaskFlow
+      </a>
+
+      <p class="menu-label">WORKSPACE</p>
+      <button class="nav-item active" data-view="all">
+        <span>▦</span> All Tasks
+        <span class="nav-count" id="allCount">0</span>
+      </button>
+      <button class="nav-item" data-view="today">
+        <span>◷</span> Due Today
+      </button>
+      <button class="nav-item" data-view="completed">
+        <span>✓</span> Completed
+      </button>
+
+      <div class="sidebar-bottom">
+        <div class="profile-avatar">U</div>
+        <div>
+          <strong>My Workspace</strong>
+          <p>Personal planner</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">YOUR WORKSPACE</p>
+          <h1 id="pageTitle">My Tasks</h1>
+          <p class="subtitle" id="todayLabel"></p>
+        </div>
+        <button class="primary-btn" id="openFormBtn">
+          <span>＋</span> Add New Task
+        </button>
+      </header>
+
+      <section class="stats">
+        <article class="stat-card">
+          <div class="stat-icon purple">▦</div>
+          <p>Total Tasks</p>
+          <h2 id="totalStat">0</h2>
+          <span>All your tasks</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon orange">◷</div>
+          <p>In Progress</p>
+          <h2 id="progressStat">0</h2>
+          <span>Work in progress</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon green">✓</div>
+          <p>Completed</p>
+          <h2 id="completedStat">0</h2>
+          <span>Tasks finished</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-icon red">!</div>
+          <p>Overdue</p>
+          <h2 id="overdueStat">0</h2>
+          <span>Past due date</span>
+        </article>
+      </section>
+
+      <section class="task-section">
+        <div class="section-heading">
+          <div>
+            <h2>Task Board</h2>
+            <p>Manage your work and stay productive.</p>
+          </div>
+          <button class="secondary-btn" id="clearSearchBtn">
+            Clear Search
+          </button>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="search"
+              placeholder="Search your tasks...">
+          </div>
+
+          <select id="priorityFilter" aria-label="Filter by priority">
+            <option value="all">All priorities</option>
+            <option value="high">High priority</option>
+            <option value="medium">Medium priority</option>
+            <option value="low">Low priority</option>
+          </select>
+
+          <select id="sortSelect" aria-label="Sort tasks">
+            <option value="newest">Newest first</option>
+            <option value="due">Due date</option>
+            <option value="priority">Priority</option>
+          </select>
+        </div>
+
+        <div class="board">
+          <section class="board-column">
+            <div class="column-heading">
+              <span class="column-dot todo-dot"></span>
+              <h3>To Do</h3>
+              <span class="column-count" id="todoCount">0</span>
+            </div>
+            <div class="task-list" id="todoList"></div>
+          </section>
+
+          <section class="board-column">
+            <div class="column-heading">
+              <span class="column-dot progress-dot"></span>
+              <h3>In Progress</h3>
+              <span class="column-count" id="progressCount">0</span>
+            </div>
+            <div class="task-list" id="progressList"></div>
+          </section>
+
+          <section class="board-column">
+            <div class="column-heading">
+              <span class="column-dot completed-dot"></span>
+              <h3>Completed</h3>
+              <span class="column-count" id="doneCount">0</span>
+            </div>
+            <div class="task-list" id="doneList"></div>
+          </section>
+        </div>
+      </section>
+      <footer>Made with ♥ using HTML, CSS & JavaScript</footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="taskModal" hidden>
+    <form class="task-form" id="taskForm">
+      <div class="form-heading">
+        <div>
+          <p class="eyebrow">TASK DETAILS</p>
+          <h2 id="formTitle">Create a Task</h2>
+        </div>
+        <button type="button" class="close-btn" id="closeFormBtn"
+          aria-label="Close form">×</button>
+      </div>
+
+      <label for="taskTitle">Task title *</label>
+      <input id="taskTitle" maxlength="100" required
+        placeholder="e.g. Complete portfolio website">
+
+      <label for="taskDescription">Description</label>
+      <textarea id="taskDescription" rows="3" maxlength="500"
+        placeholder="Add a few details..."></textarea>
+
+      <div class="form-row">
+        <div>
+          <label for="taskPriority">Priority</label>
+          <select id="taskPriority">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div>
+          <label for="taskStatus">Status</label>
+          <select id="taskStatus">
+            <option value="todo">To Do</option>
+            <option value="progress">In Progress</option>
+            <option value="done">Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="taskDueDate">Due date</label>
+      <input id="taskDueDate" type="date">
+
+      <div class="form-actions">
+        <button type="button" class="secondary-btn" id="cancelBtn">
+          Cancel
+        </button>
+        <button type="submit" class="primary-btn" id="saveTaskBtn">
+          Save Task
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
